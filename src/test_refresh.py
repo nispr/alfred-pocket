@@ -38,7 +38,7 @@ class PocketRefreshTestCase(unittest.TestCase):
         self.assertTrue('1' in CachedData['pocket_list'])
         self.assertTrue('2' in CachedData['pocket_list'])
         self.assertTrue('300' in CachedData['pocket_list'])
-        self.assertEquals(len(CachedData['pocket_list']), 4)
+        self.assertEqual(len(CachedData['pocket_list']), 4)
 
         pocket_refresh.main()
         self.assertTrue('1' in CachedData['pocket_list'])
@@ -46,7 +46,7 @@ class PocketRefreshTestCase(unittest.TestCase):
         self.assertTrue('4' in CachedData['pocket_list'])
         self.assertTrue('300' in CachedData['pocket_list'])
         self.assertTrue('1337' in CachedData['pocket_list'])
-        self.assertEquals(len(CachedData['pocket_list']), 5)
+        self.assertEqual(len(CachedData['pocket_list']), 5)
 
     def monkeypatch_refresh(self):
         def get(

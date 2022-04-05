@@ -27,7 +27,7 @@ class PocketTestCase(unittest.TestCase):
         pocket.WF._items = []
         pocket.main(None)
         # Update available item + categories
-        self.assertEquals(len(pocket.WF._items), len(pocket.CATEGORIES))
+        self.assertEqual(len(pocket.WF._items), len(pocket.CATEGORIES))
 
     def test_main_search_all(self):
         CachedData['__workflow_update_status'] = {
@@ -41,7 +41,7 @@ class PocketTestCase(unittest.TestCase):
         pocket.WF.send_feedback = send_feedback
         pocket.WF._items = []
         pocket.main(None)
-        self.assertEquals(len(pocket.WF._items), 2)
+        self.assertEqual(len(pocket.WF._items), 2)
 
     def test_main_mylist(self):
         CachedData['__workflow_update_status'] = {
@@ -55,7 +55,7 @@ class PocketTestCase(unittest.TestCase):
         pocket.WF.send_feedback = send_feedback
         pocket.WF._items = []
         pocket.main(None)
-        self.assertEquals(len(pocket.WF._items), 3)
+        self.assertEqual(len(pocket.WF._items), 3)
 
     def test_main_archive(self):
         CachedData['__workflow_update_status'] = {
@@ -145,7 +145,7 @@ class PocketTestCase(unittest.TestCase):
         pocket.WF.send_feedback = send_feedback
         pocket.WF._items = []
         pocket.main(None)
-        self.assertEquals(len(pocket.WF._items), 4)
+        self.assertEqual(len(pocket.WF._items), 4)
         self.assertTrue('tag1' in pocket.WF._items[0].title)
 
     def test_main_mytags_search(self):
@@ -161,7 +161,7 @@ class PocketTestCase(unittest.TestCase):
         pocket.WF.send_feedback = send_feedback
         pocket.WF._items = []
         pocket.main(None)
-        self.assertEquals(len(pocket.WF._items), 1)
+        self.assertEqual(len(pocket.WF._items), 1)
         self.assertTrue('interesting' in pocket.WF._items[0].title)
 
     def test_main_random(self):
@@ -176,7 +176,7 @@ class PocketTestCase(unittest.TestCase):
         pocket.WF.send_feedback = send_feedback
         pocket.WF._items = []
         pocket.main(None)
-        self.assertEquals(len(pocket.WF._items), 3)
+        self.assertEqual(len(pocket.WF._items), 3)
 
     def test_main_single_tag(self):
         CachedData['__workflow_update_status'] = {
@@ -191,7 +191,7 @@ class PocketTestCase(unittest.TestCase):
         pocket.WF.send_feedback = send_feedback
         pocket.WF._items = []
         pocket.main(None)
-        self.assertEquals(len(pocket.WF._items), 1)
+        self.assertEqual(len(pocket.WF._items), 1)
         self.assertTrue('google.com' in pocket.WF._items[0].subtitle)
 
     def test_main_error(self):
@@ -217,7 +217,7 @@ class PocketTestCase(unittest.TestCase):
         pocket.WF.send_feedback = send_feedback
         pocket.WF._items = []
         pocket.main(None)
-        self.assertEquals(len(pocket.WF._items), 1)
+        self.assertEqual(len(pocket.WF._items), 1)
         self.assertTrue('Pocket list is empty' in pocket.WF._items[0].title)
 
     def test_register_magic_arguments(self):
@@ -226,7 +226,7 @@ class PocketTestCase(unittest.TestCase):
         pocket.register_magic_arguments()
         pocket.WF.magic_arguments['deauth']()
         self.assertTrue('deauth' in pocket.WF.magic_arguments)
-        self.assertEquals(pocket.WF.magic_prefix, 'wf:')
+        self.assertEqual(pocket.WF.magic_prefix, 'wf:')
 
     def test_get_links(self):
         def cached_data(self, key, max_age=None):
@@ -235,16 +235,16 @@ class PocketTestCase(unittest.TestCase):
                 return None
             return CachedData.get(key)
         pocket.Workflow.cached_data = cached_data
-        self.assertEquals(pocket.get_links(), 12345)
+        self.assertEqual(pocket.get_links(), 12345)
 
         CachedData.clear()
-        self.assertEquals(pocket.get_links(tries=0), {})
+        self.assertEqual(pocket.get_links(tries=0), {})
 
     def test_filter_and_add_items(self):
-        self.assertEquals(len(pocket.WF._items), 0)
+        self.assertEqual(len(pocket.WF._items), 0)
         pocket.filter_and_add_items(links={}, user_input='')
-        self.assertEquals(len(pocket.WF._items), 1)
-        self.assertEquals(pocket.WF._items[0].title, 'No links found for "".')
+        self.assertEqual(len(pocket.WF._items), 1)
+        self.assertEqual(pocket.WF._items[0].title, 'No links found for "".')
 
         pocket.WF._items = []
         pocket.filter_and_add_items(links=[{
@@ -253,8 +253,8 @@ class PocketTestCase(unittest.TestCase):
             'given_url': 'url',
             'time_added': '10',
         }], user_input='')
-        self.assertEquals(len(pocket.WF._items), 1)
-        self.assertEquals(pocket.WF._items[0].title, 'test')
+        self.assertEqual(len(pocket.WF._items), 1)
+        self.assertEqual(pocket.WF._items[0].title, 'test')
 
         pocket.WF._items = []
         pocket.filter_and_add_items(links=[{
@@ -265,8 +265,8 @@ class PocketTestCase(unittest.TestCase):
             'time_added': '10',
             'tags': {'alfred': {'item_id': '4444', 'tag': 'alfred'}}
         }], user_input='notfound')
-        self.assertEquals(len(pocket.WF._items), 1)
-        self.assertEquals(pocket.WF._items[0].title, "No links found for "
+        self.assertEqual(len(pocket.WF._items), 1)
+        self.assertEqual(pocket.WF._items[0].title, "No links found for "
                                                      "\"notfound\".")
 
     def test_get_auth_url(self):
