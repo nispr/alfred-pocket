@@ -1,7 +1,8 @@
 import argparse
 import os
 import subprocess
-import urlparse
+from urllib.parse import urljoin
+from urllib.parse import urlsplit
 from pocket_api import Pocket, InvalidQueryException
 from workflow import Workflow
 import config
@@ -83,20 +84,20 @@ def main(_):
     link = get_browser_link(current_app)
     if link is not None:
         if not add_method(link, tags):
-            print "%s link invalid." % current_app
+            print("%s link invalid." % current_app)
             return
-        print "%s link added to Pocket." % current_app
+        print("%s link added to Pocket." % current_app)
         WF.clear_cache()
         return
 
     link = get_link_from_clipboard()
     if link is not None:
         add_method(link, tags)
-        print 'Clipboard link added to Pocket.'
+        print('Clipboard link added to Pocket.')
         WF.clear_cache()
         return
 
-    print 'No link found!'
+    print('No link found!')
 
 
 def parse_args(args):
@@ -131,11 +132,11 @@ def get_link_from_clipboard():
     clipboard, stderr = p.communicate()
     if stderr:
         return None
-    parts = urlparse.urlsplit(clipboard)
+    parts = urlsplit(clipboard)
     if not parts.scheme or not parts.netloc:
         return None
     return {
-        'url': clipboard,
+        'url': clipboard.decode("utf-8"),
         'title': None
     }
 
@@ -143,8 +144,9 @@ def get_link_from_clipboard():
 def add_link(item, tags):
     if item:
         try:
-            return POCKET.add(url=item['url'], title=item['title'],
+            code = POCKET.add(url=item['url'], title=item['title'],
                               tags=','.join(tags))[0]
+            return code
         except InvalidQueryException:
             pass
     return None

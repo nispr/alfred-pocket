@@ -1,4 +1,5 @@
-import workflow.web as requests
+import urllib.request as requests
+import urllib.parse as parse
 import json
 from functools import wraps
 
@@ -43,13 +44,13 @@ def method_wrapper(fn):
 
     @wraps(fn)
     def wrapped(self, *args, **kwargs):
-        arg_names = list(fn.func_code.co_varnames)
+        arg_names = list(fn.__code__.co_varnames)
         arg_names.remove('self')
         kwargs.update(dict(zip(arg_names, args)))
 
         url = self.api_endpoints[fn.__name__]
         payload = dict([
-            (k, v) for k, v in kwargs.iteritems()
+            (k, v) for k, v in iter(kwargs.items())
             if v is not None
         ])
         payload.update(self.get_payload())
@@ -63,13 +64,13 @@ def bulk_wrapper(fn):
 
     @wraps(fn)
     def wrapped(self, *args, **kwargs):
-        arg_names = list(fn.func_code.co_varnames)
+        arg_names = list(fn.__code__.co_varnames)
         arg_names.remove('self')
         kwargs.update(dict(zip(arg_names, args)))
 
         wait = kwargs.get('wait', True)
         query = dict(
-            [(k, v) for k, v in kwargs.iteritems() if v is not None]
+            [(k, v) for k, v in iter(kwargs.items()) if v is not None]
         )
         #TODO: Fix this hack
         query['action'] = 'add' if fn.__name__ == 'bulk_add' else fn.__name__
@@ -85,7 +86,7 @@ def bulk_wrapper(fn):
             payload.update(self.get_payload())
             return self.make_request(
                 url,
-                json.dumps(payload),
+                bytes(json.dumps(payload), encoding="utf-8"),
                 headers={'content-type': 'application/json'},
             )
 
@@ -133,21 +134,22 @@ class Pocket(object):
 
     @staticmethod
     def _post_request(url, payload, headers):
-        r = requests.post(url, data=payload, headers=headers)
-        return r
+        serialized = parse.urlencode(payload).encode()
+        return requests.Request(url, data=serialized, headers = headers or {})
 
     @classmethod
     def _make_request(cls, url, payload, headers=None):
-        r = cls._post_request(url, payload, headers)
+        req = cls._post_request(url, payload, headers)
+        response = requests.urlopen(req)
 
-        if r.status_code > 399:
-            error_msg = cls.statuses.get(r.status_code)
-            extra_info = r.headers.get('X-Error')
-            raise EXCEPTIONS.get(r.status_code, PocketException)(
+        if response.code > 399:
+            error_msg = cls.statuses.get(response.status_code)
+            extra_info = response.headers.get('X-Error')
+            raise EXCEPTIONS.get(response.status_code, PocketException)(
                 '%s. %s' % (error_msg, extra_info)
             )
-
-        return r.json() or r.text, r.headers
+        
+        return json.loads(response.read().decode()) or response.text, response.headers
 
     @classmethod
     def make_request(cls, url, payload, headers=None):
@@ -358,7 +360,7 @@ class Pocket(object):
 
         auth_url = 'https://getpocket.com/auth/authorize?request_token='\
             '%s&redirect_uri=%s' % (code, redirect_uri)
-        raw_input(
+        input(
             'Please open %s in your browser to authorize the app and '
             'press enter:' % auth_url
         )

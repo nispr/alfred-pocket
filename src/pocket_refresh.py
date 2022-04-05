@@ -1,4 +1,4 @@
-from urllib2 import URLError
+from urllib.error import URLError
 from pocket_api import Pocket, AuthException, PocketException
 from workflow import Workflow, PasswordNotFound
 
@@ -39,7 +39,7 @@ def main():
             offset += LINK_LIMIT
 
         # Delete obsolete entries
-        for item_id in links.keys():
+        for item_id in list(links):
             if links[item_id]['status'] == '2':
                 del links[item_id]
 
@@ -49,7 +49,7 @@ def main():
                         for t in l['tags'].keys()]))
         wf.cache_data('pocket_tags', tags)
 
-    except (AuthException, URLError, PocketException, PasswordNotFound), e:
+    except (AuthException, URLError, PocketException, PasswordNotFound) as e:
         error = type(e).__name__
         wf.cache_data('pocket_error', error)
 

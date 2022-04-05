@@ -31,7 +31,7 @@ def main(_):
     register_magic_arguments()
 
     # Get user input
-    user_input = ''
+    user_input = 'pocket in:mylist '
     if len(WF.args):
         user_input = WF.args[0].split(' ')
 
@@ -56,7 +56,7 @@ def main(_):
             WF.add_item(msg[0], msg[1], icon=get_icon('alert'),
                         valid=False)
 
-        if (not user_input[0] or
+        if (len(user_input) == 0 or not user_input[0] or
                 (len(user_input) == 1 and user_input[0].startswith('in:'))):
             for category, action in zip(CATEGORIES, ACTIONS):
                 WF.add_item(category,
@@ -248,7 +248,7 @@ def authorize():  # pragma: no cover
 
 def refresh_list():  # pragma: no cover
     if not is_running('pocket_refresh'):
-        cmd = ['/usr/bin/python', WF.workflowfile('pocket_refresh.py')]
+        cmd = ['/usr/bin/python3', WF.workflowfile('pocket_refresh.py')]
         run_in_background('pocket_refresh', cmd)
 
 
