@@ -274,7 +274,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python pocket_save.py "{query}"</string>
+				<string>python3 pocket_save.py "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -324,7 +324,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python pocket_save.py --add-and-archive "{query}"</string>
+				<string>python3 pocket_save.py --add-and-archive "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -361,7 +361,7 @@
 				<key>runningsubtext</key>
 				<string></string>
 				<key>script</key>
-				<string>python pocket_tags.py --add "{query}"</string>
+				<string>python3 pocket_tags.py --add "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -477,7 +477,7 @@
 				<key>runningsubtext</key>
 				<string></string>
 				<key>script</key>
-				<string>python pocket_tags.py --add-and-archive "{query}"</string>
+				<string>python3 pocket_tags.py --add-and-archive "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -544,7 +544,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python pocket_launcher.py --visit-and-archive "{query}"</string>
+				<string>python3 pocket_launcher.py --visit-and-archive "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -581,7 +581,7 @@
 				<key>runningsubtext</key>
 				<string>Contacting getpocket.com...</string>
 				<key>script</key>
-				<string>python pocket.py "{query}"</string>
+				<string>python3 pocket.py "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -658,7 +658,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python pocket_launcher.py --archive "{query}"</string>
+				<string>python3 pocket_launcher.py --archive "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -694,7 +694,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python pocket_launcher.py --delete "{query}"</string>
+				<string>python3 pocket_launcher.py --delete "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -717,7 +717,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python pocket_launcher.py --website "{query}"</string>
+				<string>python3 pocket_launcher.py --website "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -740,7 +740,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python pocket_launcher.py --favorite "{query}"</string>
+				<string>python3 pocket_launcher.py --favorite "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
