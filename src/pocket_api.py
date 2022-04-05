@@ -134,8 +134,8 @@ class Pocket(object):
 
     @staticmethod
     def _post_request(url, payload, headers):
-        serialized = parse.urlencode(payload).encode()
-        return requests.Request(url, data=serialized, headers = headers or {})
+        data = parse.urlencode(payload).encode()
+        return requests.Request(url, data=data, headers = headers or {})
 
     @classmethod
     def _make_request(cls, url, payload, headers=None):
@@ -149,7 +149,8 @@ class Pocket(object):
                 '%s. %s' % (error_msg, extra_info)
             )
         
-        return json.loads(response.read().decode()) or response.text, response.headers
+        text = json.loads(response.read().decode())
+        return text or response.text, response.headers
 
     @classmethod
     def make_request(cls, url, payload, headers=None):
